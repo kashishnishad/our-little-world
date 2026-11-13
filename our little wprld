@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Little World ♡</title>
+<style>
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:#fff0f5;
+  color:#713e55;
+  font-family:'Georgia',serif;
+  text-align:center;
+}
+header {
+  padding:65px 20px 55px;
+  background:linear-gradient(145deg,#ffd6e5,#fff0f5,#f9c8dc);
+}
+h1 {font-size:clamp(38px,8vw,65px);margin:15px 0}
+h2 {color:#b45e82}
+p {line-height:1.8}
+button {
+  background:#d979a1;
+  color:white;
+  border:0;
+  padding:13px 23px;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:15px;
+  margin:8px;
+}
+button:hover {background:#b9537d}
+section {padding:45px 18px;max-width:850px;margin:auto}
+.card {
+  background:#fffafa;
+  border:1px solid #f7cddd;
+  border-radius:22px;
+  padding:25px;
+  margin:15px auto;
+  box-shadow:0 6px 20px #d88eaa22;
+}
+.heart {font-size:30px;animation:beat 1.5s infinite}
+@keyframes beat {
+  50% {transform:scale(1.25)}
+}
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.gallery img {
+  width:100%;height:190px;
+  object-fit:cover;
+  border:8px solid white;
+  border-radius:8px;
+  box-shadow:0 4px 12px #a65b7722;
+  transform:rotate(-2deg);
+}
+.gallery img:nth-child(even){transform:rotate(2deg)}
+.reason {
+  background:#ffe2ed;
+  padding:15px;
+  border-radius:16px;
+  margin:10px;
+  cursor:pointer;
+}
+#letter {display:none;text-align:left;white-space:pre-line}
+#surprise {display:none;font-size:21px;color:#b34d78}
+footer {padding:30px;background:#fbd5e3}
+input {max-width:100%;margin:15px}
+.heartfloat {
+  position:fixed;bottom:-30px;
+  pointer-events:none;
+  animation:float 5s linear forwards;
+}
+@keyframes float {
+  to {transform:translateY(-110vh) rotate(40deg);opacity:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="heart">♡</div>
+  <p>A LITTLE PLACE MADE WITH LOVE</p>
+  <h1>Our Little World</h1>
+  <p>For my favourite person, my favourite feeling. 🎀</p>
+  <button onclick="document.getElementById('memories').scrollIntoView({behavior:'smooth'})">
+    Enter our world ♡
+  </button>
+</header>
+
+<section id="memories">
+  <h2>Our little memories 📸</h2>
+  <p>Every picture has a little story.</p>
+  <div class="card">
+    <p>Choose your favourite pictures together:</p>
+    <input type="file" accept="image/*" multiple id="photos">
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<section>
+  <h2>A letter for you 💌</h2>
+  <div class="card">
+    <div style="font-size:35px">💗</div>
+    <p>To my favourite human,</p>
+    <button onclick="document.getElementById('letter').style.display='block';this.style.display='none'">
+      Open my letter ♡
+    </button>
+    <div id="letter">I don't know how to explain how special you are to me.
+
+You make ordinary moments feel special.
+I love the little things about you, the silly conversations,
+the random laughs and all our memories.
+
+Thank you for being a part of my world.
+I hope we keep making beautiful memories together.
+
+You are someone I am really grateful for.
+
+With lots of love,
+Your favourite person ♡</div>
+  </div>
+</section>
+
+<section>
+  <h2>Little reasons why I love you 🌷</h2>
+  <p>Tap each one to reveal a reason!</p>
+  <div id="reasons"></div>
+</section>
+
+<section>
+  <h2>One last surprise... 🎁</h2>
+  <div class="card">
+    <p>There is something waiting for you.</p>
+    <button onclick="showSurprise()">Click for a surprise 💗</button>
+    <div id="surprise">
+      <p>YOU ARE MY FAVOURITE NOTIFICATION! ♡</p>
+      <p>In a world full of people, I'm so glad our paths crossed.</p>
+      <div class="heart">💗</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Made with love, just for you ♡<br>
+  <small>Our little world, our little forever.</small>
+</footer>
+
+<script>
+const reasons = [
+  "Your smile makes my day ♡",
+  "The way you care about me",
+  "Your silly jokes",
+  "The little things you do",
+  "How you make me feel appreciated",
+  "Our random conversations",
+  "Simply because you are YOU 💗"
+];
+
+const container = document.getElementById("reasons");
+
+reasons.forEach((reason,i)=>{
+  const item=document.createElement("div");
+  item.className="reason";
+  item.textContent="♡ Reason "+(i+1)+" — Tap to reveal";
+  item.onclick=()=>{
+    item.textContent=reason;
+  };
+  container.appendChild(item);
+});
+
+function showSurprise(){
+  document.getElementById("surprise").style.display="block";
+  for(let i=0;i<20;i++){
+    const heart=document.createElement("div");
+    heart.className="heartfloat";
+    heart.textContent=["💗","💕","♡","🌸"][i%4];
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(18+Math.random()*20)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+  }
+}
+
+document.getElementById("photos").addEventListener("change",function(){
+  const gallery=document.getElementById("gallery");
+  gallery.innerHTML="";
+  [...this.files].forEach(file=>{
+    const img=document.createElement("img");
+    img.src=URL.createObjectURL(file);
+    gallery.appendChild(img);
+  });
+});
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Little World ♡</title>
+<style>
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:#fff0f5;
+  color:#713e55;
+  font-family:'Georgia',serif;
+  text-align:center;
+}
+header {
+  padding:65px 20px 55px;
+  background:linear-gradient(145deg,#ffd6e5,#fff0f5,#f9c8dc);
+}
+h1 {font-size:clamp(38px,8vw,65px);margin:15px 0}
+h2 {color:#b45e82}
+p {line-height:1.8}
+button {
+  background:#d979a1;
+  color:white;
+  border:0;
+  padding:13px 23px;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:15px;
+  margin:8px;
+}
+button:hover {background:#b9537d}
+section {padding:45px 18px;max-width:850px;margin:auto}
+.card {
+  background:#fffafa;
+  border:1px solid #f7cddd;
+  border-radius:22px;
+  padding:25px;
+  margin:15px auto;
+  box-shadow:0 6px 20px #d88eaa22;
+}
+.heart {font-size:30px;animation:beat 1.5s infinite}
+@keyframes beat {
+  50% {transform:scale(1.25)}
+}
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.gallery img {
+  width:100%;height:190px;
+  object-fit:cover;
+  border:8px solid white;
+  border-radius:8px;
+  box-shadow:0 4px 12px #a65b7722;
+  transform:rotate(-2deg);
+}
+.gallery img:nth-child(even){transform:rotate(2deg)}
+.reason {
+  background:#ffe2ed;
+  padding:15px;
+  border-radius:16px;
+  margin:10px;
+  cursor:pointer;
+}
+#letter {display:none;text-align:left;white-space:pre-line}
+#surprise {display:none;font-size:21px;color:#b34d78}
+footer {padding:30px;background:#fbd5e3}
+input {max-width:100%;margin:15px}
+.heartfloat {
+  position:fixed;bottom:-30px;
+  pointer-events:none;
+  animation:float 5s linear forwards;
+}
+@keyframes float {
+  to {transform:translateY(-110vh) rotate(40deg);opacity:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="heart">♡</div>
+  <p>A LITTLE PLACE MADE WITH LOVE</p>
+  <h1>Our Little World</h1>
+  <p>For my favourite person, my favourite feeling. 🎀</p>
+  <button onclick="document.getElementById('memories').scrollIntoView({behavior:'smooth'})">
+    Enter our world ♡
+  </button>
+</header>
+
+<section id="memories">
+  <h2>Our little memories 📸</h2>
+  <p>Every picture has a little story.</p>
+  <div class="card">
+    <p>Choose your favourite pictures together:</p>
+    <input type="file" accept="image/*" multiple id="photos">
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<section>
+  <h2>A letter for you 💌</h2>
+  <div class="card">
+    <div style="font-size:35px">💗</div>
+    <p>To my favourite human,</p>
+    <button onclick="document.getElementById('letter').style.display='block';this.style.display='none'">
+      Open my letter ♡
+    </button>
+    <div id="letter">I don't know how to explain how special you are to me.
+
+You make ordinary moments feel special.
+I love the little things about you, the silly conversations,
+the random laughs and all our memories.
+
+Thank you for being a part of my world.
+I hope we keep making beautiful memories together.
+
+You are someone I am really grateful for.
+
+With lots of love,
+Your favourite person ♡</div>
+  </div>
+</section>
+
+<section>
+  <h2>Little reasons why I love you 🌷</h2>
+  <p>Tap each one to reveal a reason!</p>
+  <div id="reasons"></div>
+</section>
+
+<section>
+  <h2>One last surprise... 🎁</h2>
+  <div class="card">
+    <p>There is something waiting for you.</p>
+    <button onclick="showSurprise()">Click for a surprise 💗</button>
+    <div id="surprise">
+      <p>YOU ARE MY FAVOURITE NOTIFICATION! ♡</p>
+      <p>In a world full of people, I'm so glad our paths crossed.</p>
+      <div class="heart">💗</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Made with love, just for you ♡<br>
+  <small>Our little world, our little forever.</small>
+</footer>
+
+<script>
+const reasons = [
+  "Your smile makes my day ♡",
+  "The way you care about me",
+  "Your silly jokes",
+  "The little things you do",
+  "How you make me feel appreciated",
+  "Our random conversations",
+  "Simply because you are YOU 💗"
+];
+
+const container = document.getElementById("reasons");
+
+reasons.forEach((reason,i)=>{
+  const item=document.createElement("div");
+  item.className="reason";
+  item.textContent="♡ Reason "+(i+1)+" — Tap to reveal";
+  item.onclick=()=>{
+    item.textContent=reason;
+  };
+  container.appendChild(item);
+});
+
+function showSurprise(){
+  document.getElementById("surprise").style.display="block";
+  for(let i=0;i<20;i++){
+    const heart=document.createElement("div");
+    heart.className="heartfloat";
+    heart.textContent=["💗","💕","♡","🌸"][i%4];
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(18+Math.random()*20)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+  }
+}
+
+document.getElementById("photos").addEventListener("change",function(){
+  const gallery=document.getElementById("gallery");
+  gallery.innerHTML="";
+  [...this.files].forEach(file=>{
+    const img=document.createElement("img");
+    img.src=URL.createObjectURL(file);
+    gallery.appendChild(img);
+  });
+});
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Little World ♡</title>
+<style>
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:#fff0f5;
+  color:#713e55;
+  font-family:'Georgia',serif;
+  text-align:center;
+}
+header {
+  padding:65px 20px 55px;
+  background:linear-gradient(145deg,#ffd6e5,#fff0f5,#f9c8dc);
+}
+h1 {font-size:clamp(38px,8vw,65px);margin:15px 0}
+h2 {color:#b45e82}
+p {line-height:1.8}
+button {
+  background:#d979a1;
+  color:white;
+  border:0;
+  padding:13px 23px;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:15px;
+  margin:8px;
+}
+button:hover {background:#b9537d}
+section {padding:45px 18px;max-width:850px;margin:auto}
+.card {
+  background:#fffafa;
+  border:1px solid #f7cddd;
+  border-radius:22px;
+  padding:25px;
+  margin:15px auto;
+  box-shadow:0 6px 20px #d88eaa22;
+}
+.heart {font-size:30px;animation:beat 1.5s infinite}
+@keyframes beat {
+  50% {transform:scale(1.25)}
+}
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.gallery img {
+  width:100%;height:190px;
+  object-fit:cover;
+  border:8px solid white;
+  border-radius:8px;
+  box-shadow:0 4px 12px #a65b7722;
+  transform:rotate(-2deg);
+}
+.gallery img:nth-child(even){transform:rotate(2deg)}
+.reason {
+  background:#ffe2ed;
+  padding:15px;
+  border-radius:16px;
+  margin:10px;
+  cursor:pointer;
+}
+#letter {display:none;text-align:left;white-space:pre-line}
+#surprise {display:none;font-size:21px;color:#b34d78}
+footer {padding:30px;background:#fbd5e3}
+input {max-width:100%;margin:15px}
+.heartfloat {
+  position:fixed;bottom:-30px;
+  pointer-events:none;
+  animation:float 5s linear forwards;
+}
+@keyframes float {
+  to {transform:translateY(-110vh) rotate(40deg);opacity:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="heart">♡</div>
+  <p>A LITTLE PLACE MADE WITH LOVE</p>
+  <h1>Our Little World</h1>
+  <p>For my favourite person, my favourite feeling. 🎀</p>
+  <button onclick="document.getElementById('memories').scrollIntoView({behavior:'smooth'})">
+    Enter our world ♡
+  </button>
+</header>
+
+<section id="memories">
+  <h2>Our little memories 📸</h2>
+  <p>Every picture has a little story.</p>
+  <div class="card">
+    <p>Choose your favourite pictures together:</p>
+    <input type="file" accept="image/*" multiple id="photos">
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<section>
+  <h2>A letter for you 💌</h2>
+  <div class="card">
+    <div style="font-size:35px">💗</div>
+    <p>To my favourite human,</p>
+    <button onclick="document.getElementById('letter').style.display='block';this.style.display='none'">
+      Open my letter ♡
+    </button>
+    <div id="letter">I don't know how to explain how special you are to me.
+
+You make ordinary moments feel special.
+I love the little things about you, the silly conversations,
+the random laughs and all our memories.
+
+Thank you for being a part of my world.
+I hope we keep making beautiful memories together.
+
+You are someone I am really grateful for.
+
+With lots of love,
+Your favourite person ♡</div>
+  </div>
+</section>
+
+<section>
+  <h2>Little reasons why I love you 🌷</h2>
+  <p>Tap each one to reveal a reason!</p>
+  <div id="reasons"></div>
+</section>
+
+<section>
+  <h2>One last surprise... 🎁</h2>
+  <div class="card">
+    <p>There is something waiting for you.</p>
+    <button onclick="showSurprise()">Click for a surprise 💗</button>
+    <div id="surprise">
+      <p>YOU ARE MY FAVOURITE NOTIFICATION! ♡</p>
+      <p>In a world full of people, I'm so glad our paths crossed.</p>
+      <div class="heart">💗</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Made with love, just for you ♡<br>
+  <small>Our little world, our little forever.</small>
+</footer>
+
+<script>
+const reasons = [
+  "Your smile makes my day ♡",
+  "The way you care about me",
+  "Your silly jokes",
+  "The little things you do",
+  "How you make me feel appreciated",
+  "Our random conversations",
+  "Simply because you are YOU 💗"
+];
+
+const container = document.getElementById("reasons");
+
+reasons.forEach((reason,i)=>{
+  const item=document.createElement("div");
+  item.className="reason";
+  item.textContent="♡ Reason "+(i+1)+" — Tap to reveal";
+  item.onclick=()=>{
+    item.textContent=reason;
+  };
+  container.appendChild(item);
+});
+
+function showSurprise(){
+  document.getElementById("surprise").style.display="block";
+  for(let i=0;i<20;i++){
+    const heart=document.createElement("div");
+    heart.className="heartfloat";
+    heart.textContent=["💗","💕","♡","🌸"][i%4];
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(18+Math.random()*20)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+  }
+}
+
+document.getElementById("photos").addEventListener("change",function(){
+  const gallery=document.getElementById("gallery");
+  gallery.innerHTML="";
+  [...this.files].forEach(file=>{
+    const img=document.createElement("img");
+    img.src=URL.createObjectURL(file);
+    gallery.appendChild(img);
+  });
+});
+</script>
+</body>
+</html>
