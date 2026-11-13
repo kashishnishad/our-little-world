@@ -185,15 +185,13 @@ function showSurprise(){
   }
 }
 
-document.getElementById("photos").addEventListener("change",function(){
-  const gallery=document.getElementById("gallery");
-  gallery.innerHTML="";
-  [...this.files].forEach(file=>{
-    const img=document.createElement("img");
-    img.src=URL.createObjectURL(file);
-    gallery.appendChild(img);
-  });
-});
+const gallery = document.getElementById("gallery");
+
+const img = document.createElement("img");
+img.src = "memory1.jpg";
+img.alt = "Our little memory";
+
+gallery.appendChild(img);
 </script>
 </body>
 </html>
